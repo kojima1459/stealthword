@@ -164,7 +164,8 @@ html, body {
 .send-btn .material-icons{font-size:18px}
 
 /* === BOSS MODE === */
-.boss-content{font-family:var(--font-doc);font-size:11pt;line-height:1.8;color:var(--text-primary)}
+.boss-content{font-family:var(--font-doc);font-size:11pt;line-height:1.8;color:var(--text-primary);cursor:text;outline:none;min-height:300px}
+.boss-content:focus{outline:none}
 .boss-content h1{font-size:18pt;font-weight:700;margin-bottom:16px}
 .boss-content h2{font-size:14pt;font-weight:700;margin-top:24px;margin-bottom:10px}
 .boss-content h3{font-size:12pt;font-weight:700;margin-top:18px;margin-bottom:8px}
