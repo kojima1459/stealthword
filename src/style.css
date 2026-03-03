@@ -402,6 +402,24 @@ body.skin-terminal .send-btn{background:#4ec9b0;border-radius:4px}
 .team-join-btn{width:100%;padding:12px;font-size:15px}
 .team-modal-hint{font-size:12px;color:var(--text-light);display:flex;gap:6px;align-items:flex-start;line-height:1.5}
 
+/* === HEADER ICON LABELS === */
+.header-icon-btn.has-label{display:flex;flex-direction:column;align-items:center;gap:0;min-width:40px}
+.header-icon-label{font-size:9px;font-weight:500;color:var(--text-secondary);font-family:var(--font-main);line-height:1;margin-top:-2px}
+
+/* === HELP MODAL === */
+.help-card{width:560px;max-height:80vh}
+.help-body{padding:4px 24px 20px;overflow-y:auto;max-height:calc(80vh - 60px)}
+.help-section{margin-bottom:16px;border-bottom:1px solid var(--border-color);padding-bottom:12px}
+.help-section:last-of-type{border-bottom:none}
+.help-section h3{font-size:14px;font-weight:600;color:var(--text-primary);margin:0 0 10px;font-family:var(--font-main)}
+.help-item{display:flex;gap:10px;margin-bottom:10px;font-size:13px;line-height:1.6;color:var(--text-secondary);font-family:var(--font-main)}
+.help-item strong{color:var(--text-primary)}
+.help-icon{font-size:20px;flex-shrink:0;width:28px;text-align:center}
+.help-shortcuts-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13px;font-family:var(--font-main);color:var(--text-secondary)}
+.help-footer{text-align:center;padding:12px 0 4px}
+.help-footer button{font-size:14px;padding:8px 24px}
+kbd{display:inline-block;padding:1px 6px;margin:0 2px;border:1px solid var(--border-color);border-radius:4px;background:var(--bg-toolbar);font-size:11px;font-family:var(--font-main);line-height:1.6;box-shadow:0 1px 0 rgba(0,0,0,.1)}
+
 /* === RESPONSIVE (MOBILE) === */
 @media(max-width:920px){
   .toolbar{overflow-x:auto;flex-wrap:nowrap}

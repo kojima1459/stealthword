@@ -29,6 +29,10 @@ applySkin(SettingsManager.skin);
 document.getElementById('btn-skin').addEventListener('click', () => {
   document.getElementById('skin-overlay').style.display = 'flex';
 });
+// Also wire the header skin button
+document.getElementById('btn-skin-header').addEventListener('click', () => {
+  document.getElementById('skin-overlay').style.display = 'flex';
+});
 document.getElementById('skin-grid').addEventListener('click', (e) => {
   const opt = e.target.closest('.skin-option');
   if (opt) { applySkin(opt.dataset.skin); }
@@ -345,6 +349,22 @@ document.querySelectorAll('.menu-item').forEach(el => {
 // Focus
 setTimeout(() => { document.getElementById('chat-input')?.focus(); }, 100);
 console.log('🔒 StealthWord v2.0 initialized');
+
+// === HELP MODAL ===
+document.getElementById('menu-help').addEventListener('click', () => {
+  document.getElementById('help-overlay').style.display = 'flex';
+});
+document.getElementById('help-replay-tutorial').addEventListener('click', () => {
+  document.getElementById('help-overlay').style.display = 'none';
+  SettingsManager.tutorialDone = false;
+  const overlay = document.getElementById('tutorial-overlay');
+  overlay.style.display = 'flex';
+  const steps = overlay.querySelectorAll('.tutorial-step');
+  const dots = overlay.querySelectorAll('.dot');
+  steps.forEach((s, i) => { s.style.display = i === 0 ? 'block' : 'none'; });
+  dots.forEach((d, i) => d.classList.toggle('active', i === 0));
+  document.getElementById('tutorial-next').textContent = '次へ →';
+});
 
 // === TEAM STEALTH ===
 const team = new TeamStealth();
