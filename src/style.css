@@ -80,25 +80,30 @@ html, body {
   transition: background 0.3s, color 0.3s;
 }
 
-/* === HEADER === */
+/* === HEADER (Google Docs 2024 authentic) === */
 .header-bar{display:flex;align-items:center;justify-content:space-between;padding:4px 8px 0 12px;background:var(--header-bg);height:52px;transition:background .3s}
-.header-left{display:flex;align-items:center;gap:6px}
-.doc-icon{display:flex;align-items:center;justify-content:center;padding:4px;border-radius:4px;cursor:pointer}
+.header-left{display:flex;align-items:center;gap:4px}
+.doc-icon{display:flex;align-items:center;justify-content:center;padding:6px;border-radius:4px;cursor:pointer;width:40px;height:40px}
 .doc-icon:hover{background:var(--hover-bg)}
+.doc-icon svg,.doc-icon img{width:24px;height:24px}
 .doc-title-area{display:flex;flex-direction:column}
-.doc-title{font-family:"Google Sans",var(--font-main);font-size:18px;font-weight:400;color:var(--text-primary);border:none;outline:none;background:transparent;padding:2px 6px;border-radius:4px;line-height:1.2;width:300px}
-.doc-title:hover{border:1px solid var(--border-color);padding:1px 5px}
-.doc-title:focus{border:2px solid var(--google-blue);padding:0 4px}
+.doc-title{font-family:"Google Sans Text","Google Sans","Product Sans",var(--font-main);font-size:18px;font-weight:400;color:var(--text-primary);border:1px solid transparent;outline:none;background:transparent;padding:1px 6px;border-radius:4px;line-height:1.25;width:320px;transition:border-color .15s}
+.doc-title:hover{border-color:var(--border-color)}
+.doc-title:focus{border:2px solid var(--google-blue);padding:0px 5px}
 .doc-subtitle{display:flex;align-items:center;gap:8px;padding-left:6px;font-size:11px;color:var(--text-secondary)}
-.star-icon,.move-icon{cursor:pointer;font-size:13px;opacity:.7}
+.star-icon,.move-icon{cursor:pointer;font-size:13px;opacity:.6;transition:opacity .15s}
 .star-icon:hover,.move-icon:hover{opacity:1}
 .cloud-status{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--text-secondary)}
-.header-right{display:flex;align-items:center;gap:4px}
-.header-icon-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;cursor:pointer;color:var(--text-secondary)}
+.cloud-status .material-icons{font-size:14px}
+.header-right{display:flex;align-items:center;gap:2px}
+.header-icon-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;cursor:pointer;color:var(--text-secondary);transition:background .15s}
 .header-icon-btn:hover{background:var(--hover-bg)}
-.share-btn{display:flex;align-items:center;gap:6px;padding:6px 20px;background:var(--share-btn-bg);color:var(--text-primary);border:none;border-radius:20px;font-family:"Google Sans",var(--font-main);font-size:14px;font-weight:500;cursor:pointer;margin-left:4px;transition:background .15s}
+.header-icon-btn .material-icons{font-size:20px}
+.share-btn{display:flex;align-items:center;gap:6px;padding:6px 20px;background:var(--share-btn-bg);color:var(--text-primary);border:none;border-radius:20px;font-family:"Google Sans",var(--font-main);font-size:14px;font-weight:500;cursor:pointer;margin-left:4px;transition:background .15s,box-shadow .15s}
 .share-btn:hover{background:var(--share-btn-hover);box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.user-avatar{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#8e24aa;color:#fff;font-size:14px;font-weight:500;margin-left:8px;cursor:pointer}
+.share-btn .material-icons{font-size:18px}
+.user-avatar{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#8e24aa;color:#fff;font-size:14px;font-weight:500;margin-left:8px;cursor:pointer;transition:opacity .15s}
+.user-avatar:hover{opacity:.85}
 
 /* === MENU BAR === */
 .menu-bar{display:flex;align-items:center;gap:0;padding:0 8px 2px 44px;background:var(--menu-bg);height:28px;transition:background .3s}
@@ -106,17 +111,19 @@ html, body {
 .menu-item:hover{background:var(--hover-bg)}
 .menu-item.has-indicator::after{content:'';display:inline-block;width:6px;height:6px;background:var(--google-blue);border-radius:50%;margin-left:4px;vertical-align:middle}
 
-/* === TOOLBAR === */
-.toolbar{display:flex;align-items:center;padding:2px 8px;background:var(--toolbar-bg);height:40px;gap:0;border-radius:0 0 8px 8px;margin:0 4px;transition:background .3s}
-.toolbar-group{display:flex;align-items:center;gap:0}
-.toolbar-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:none;background:transparent;border-radius:4px;cursor:pointer;color:var(--text-secondary);padding:0}
+/* === TOOLBAR (Google Docs authentic ribbon) === */
+.toolbar{display:flex;align-items:center;padding:2px 6px;background:var(--toolbar-bg);height:40px;gap:0;border-radius:0 0 8px 8px;margin:0 4px;transition:background .3s}
+.toolbar-group{display:flex;align-items:center;gap:1px}
+.toolbar-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:none;background:transparent;border-radius:4px;cursor:pointer;color:var(--text-secondary);padding:0;transition:background .1s}
 .toolbar-btn:hover{background:var(--hover-bg)}
+.toolbar-btn:active{background:rgba(26,115,232,.12)}
 .toolbar-btn .material-icons{font-size:18px}
-.toolbar-divider{width:1px;height:20px;background:var(--toolbar-border);margin:0 4px}
-.toolbar-select{border:none;background:transparent;font-size:12px;color:var(--text-primary);padding:4px 6px;border-radius:4px;cursor:pointer;outline:none;font-family:var(--font-main)}
-.toolbar-select:hover{background:var(--hover-bg)}
+.toolbar-divider{width:1px;height:22px;background:var(--toolbar-border);margin:0 3px;opacity:.6}
+.toolbar-select{border:1px solid transparent;background:transparent;font-size:12px;color:var(--text-primary);padding:4px 4px 4px 6px;border-radius:4px;cursor:pointer;outline:none;font-family:var(--font-main);transition:border-color .15s}
+.toolbar-select:hover{background:var(--hover-bg);border-color:var(--toolbar-border)}
+.toolbar-select:focus{border-color:var(--google-blue)}
 .toolbar-zoom{width:52px}.toolbar-style{width:100px}.toolbar-font{width:90px}
-.toolbar-input{width:32px;height:26px;border:1px solid transparent;background:transparent;text-align:center;font-size:12px;color:var(--text-primary);border-radius:4px;outline:none;font-family:var(--font-main)}
+.toolbar-input{width:32px;height:26px;border:1px solid transparent;background:transparent;text-align:center;font-size:12px;color:var(--text-primary);border-radius:4px;outline:none;font-family:var(--font-main);transition:border-color .15s}
 .toolbar-input:hover{border-color:var(--toolbar-border)}
 .toolbar-input:focus{border-color:var(--google-blue)}
 .font-size-btn{width:24px;height:24px}
@@ -332,44 +339,171 @@ html, body {
 .settings-btn-primary{padding:8px 24px;border:none;background:var(--google-blue);border-radius:6px;font-size:14px;font-family:'Google Sans',var(--font-main);font-weight:500;color:#fff;cursor:pointer}
 .settings-btn-primary:hover{background:var(--google-blue-hover);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 
-/* === MULTI-SKIN: MS WORD === */
-body.skin-ms-word{--google-blue:#185abd;--google-blue-hover:#104293;--toolbar-bg:#d4d4d4;--share-btn-bg:#185abd;--share-btn-hover:#104293}
-body.skin-ms-word .share-btn{color:#fff}
-body.skin-ms-word .header-bar{background:#185abd}
-body.skin-ms-word .header-bar .doc-title,body.skin-ms-word .header-bar .doc-subtitle,body.skin-ms-word .header-bar .cloud-status,body.skin-ms-word .header-bar .material-icons{color:#fff!important}
-body.skin-ms-word .header-icon-btn{color:#f0f0f0}
-body.skin-ms-word .menu-bar{background:#185abd}
-body.skin-ms-word .menu-item{color:#fff}
-body.skin-ms-word .menu-item:hover{background:rgba(255,255,255,.15)}
-body.skin-ms-word .toolbar{border-radius:0;margin:0}
-body.skin-ms-word .user-avatar{background:#c43e1c}
+/* ================================================================
+   MULTI-SKIN: MS WORD (Office 365 / Word for Web 2024)
+   ================================================================ */
+body.skin-ms-word{
+  --google-blue:#2b579a;--google-blue-hover:#1e3f73;--toolbar-bg:#f3f3f3;
+  --toolbar-border:#d1d1d1;--share-btn-bg:#2b579a;--share-btn-hover:#1e3f73;
+  --header-bg:#2b579a;--menu-bg:#2b579a;--border-color:#d1d1d1;
+  --status-bg:#f3f3f3;--doc-bg:#e8e8e8;--ruler-bg:#fff;--ruler-border:#c0c0c0;
+  --hover-bg:rgba(0,0,0,.05)}
+body.skin-ms-word .share-btn{color:#fff;border-radius:4px;padding:6px 16px;font-family:'Segoe UI',sans-serif}
+/* -- Title bar (dark blue ribbon) -- */
+body.skin-ms-word .header-bar{background:#2b579a;height:48px;padding:4px 12px 0 8px}
+body.skin-ms-word .header-bar .doc-title{color:#fff!important;font-family:'Segoe UI',sans-serif;font-size:14px;font-weight:400;width:auto;min-width:120px}
+body.skin-ms-word .header-bar .doc-title:hover{border-color:rgba(255,255,255,.3)!important}
+body.skin-ms-word .header-bar .doc-subtitle,
+body.skin-ms-word .header-bar .cloud-status{color:rgba(255,255,255,.75)!important}
+body.skin-ms-word .header-bar .material-icons{color:rgba(255,255,255,.85)!important}
+body.skin-ms-word .header-icon-btn{color:rgba(255,255,255,.85)}
+body.skin-ms-word .header-icon-btn:hover{background:rgba(255,255,255,.1)}
+body.skin-ms-word .header-icon-label{color:rgba(255,255,255,.7)}
+body.skin-ms-word .doc-icon svg,.skin-ms-word .doc-icon img{filter:brightness(0) invert(1)}
+/* -- Ribbon tab bar (simulated with menu items) -- */
+body.skin-ms-word .menu-bar{background:#2b579a;padding:0 0 0 4px;height:32px;border-bottom:none}
+body.skin-ms-word .menu-item{color:rgba(255,255,255,.85);font-family:'Segoe UI',sans-serif;font-size:13px;padding:6px 14px;border-radius:0;position:relative}
+body.skin-ms-word .menu-item:hover{background:rgba(255,255,255,.12);color:#fff}
+body.skin-ms-word .menu-item:first-child{background:rgba(255,255,255,.12);color:#fff}
+body.skin-ms-word .menu-item:first-child::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:#fff}
+/* -- Toolbar (gray ribbon strip) -- */
+body.skin-ms-word .toolbar{border-radius:0;margin:0;background:#f3f3f3;border-bottom:1px solid #d1d1d1;border-top:3px solid #2b579a;height:44px;padding:4px 12px}
+body.skin-ms-word .toolbar-btn{color:#333;border-radius:3px}
+body.skin-ms-word .toolbar-btn:hover{background:rgba(0,0,0,.08)}
+body.skin-ms-word .toolbar-select{font-family:'Segoe UI',sans-serif;color:#333}
+body.skin-ms-word .toolbar-input{color:#333}
+body.skin-ms-word .toolbar-divider{background:#ccc}
+/* -- Document page -- */
+body.skin-ms-word .page{box-shadow:0 0 4px rgba(0,0,0,.15);border:1px solid #d1d1d1}
+body.skin-ms-word .document-area{background:#e8e8e8}
+/* -- Status bar Word style -- */
+body.skin-ms-word .status-bar{background:#2b579a;border-top:none}
+body.skin-ms-word .status-bar *{color:rgba(255,255,255,.8)!important}
+body.skin-ms-word .status-btn{color:rgba(255,255,255,.8)!important}
+body.skin-ms-word .status-btn:hover{background:rgba(255,255,255,.12)}
+body.skin-ms-word .user-avatar{background:#d83b01;font-family:'Segoe UI',sans-serif}
+/* -- Persona & Chat -- */
+body.skin-ms-word .persona-chip{font-family:'Segoe UI',sans-serif;border-radius:3px}
+body.skin-ms-word .persona-chip.active{background:#2b579a}
+body.skin-ms-word .send-btn{background:#2b579a;border-radius:3px}
+body.skin-ms-word .send-btn:hover{background:#1e3f73}
+/* -- Scrollbar Word (thin blue) -- */
+body.skin-ms-word .document-area::-webkit-scrollbar{width:10px}
+body.skin-ms-word .document-area::-webkit-scrollbar-track{background:#e8e8e8}
+body.skin-ms-word .document-area::-webkit-scrollbar-thumb{background:#b0b0b0;border-radius:0;border:2px solid #e8e8e8}
+body.skin-ms-word .document-area::-webkit-scrollbar-thumb:hover{background:#888}
 
-/* === MULTI-SKIN: NOTION === */
-body.skin-notion{--toolbar-bg:#fff;--doc-bg:#fff;--page-bg:#fff;--header-bg:#fff;--menu-bg:#fff;--shadow-page:none;--font-doc:'Georgia','Noto Sans JP',serif}
+/* ================================================================
+   MULTI-SKIN: NOTION (Notion 2024)
+   ================================================================ */
+body.skin-notion{
+  --toolbar-bg:#fff;--doc-bg:#fff;--page-bg:#fff;--header-bg:#fff;--menu-bg:#fff;
+  --shadow-page:none;--font-doc:'Lyon Text','Georgia','Noto Sans JP',serif;
+  --text-primary:#37352f;--text-secondary:#9b9a97;--text-light:#b7b7b5;
+  --border-color:#e9e9e7;--hover-bg:rgba(55,53,47,.04);--status-bg:#fff;
+  --google-blue:#2eaadc;--google-blue-hover:#2393be}
 body.skin-notion .toolbar{display:none}
 body.skin-notion .ruler-container{display:none}
-body.skin-notion .page{width:720px;padding:32px 72px;box-shadow:none}
-body.skin-notion .header-bar{border-bottom:none}
-body.skin-notion .doc-title{font-family:Georgia,serif;font-size:32px;font-weight:700;width:100%}
+body.skin-notion .status-bar{display:none}
+body.skin-notion .page{width:708px;padding:16px 96px 60px;box-shadow:none;min-height:calc(100vh - 80px);font-size:16px;line-height:1.5}
+body.skin-notion .document-area{padding:0;justify-content:center}
+/* -- Notion header: minimal breadcrumb style -- */
+body.skin-notion .header-bar{height:44px;padding:0 12px;border-bottom:none}
+body.skin-notion .doc-icon{font-size:18px}
+body.skin-notion .doc-title{font-family:-apple-system,'Segoe UI',sans-serif;font-size:14px;font-weight:500;color:#37352f;width:auto}
+body.skin-notion .doc-title:hover{background:rgba(55,53,47,.04);border:none!important;padding:2px 6px!important}
 body.skin-notion .doc-subtitle{display:none}
 body.skin-notion .menu-bar{display:none}
-body.skin-notion .share-btn{border-radius:4px;background:transparent;color:var(--text-secondary);border:1px solid var(--border-color)}
-body.skin-notion .status-bar{display:none}
+body.skin-notion .share-btn{border-radius:4px;background:rgba(35,131,226,.1);color:#2383e2;border:none;font-family:-apple-system,'Segoe UI',sans-serif;font-size:14px;font-weight:500;padding:4px 12px}
+body.skin-notion .share-btn:hover{background:rgba(35,131,226,.16)}
+/* -- Notion chat styling -- */
+body.skin-notion .persona-bar{border-bottom:none;padding-bottom:4px}
+body.skin-notion .persona-chip{border:none;background:rgba(55,53,47,.04);border-radius:4px;font-family:-apple-system,'Segoe UI',sans-serif;color:#37352f}
+body.skin-notion .persona-chip.active{background:rgba(35,131,226,.1);color:#2383e2}
+body.skin-notion .message-content{font-family:'Lyon Text',Georgia,serif;font-size:16px;line-height:1.5}
+body.skin-notion .chat-input{font-family:'Lyon Text',Georgia,serif;font-size:16px;line-height:1.5}
+body.skin-notion .chat-input:empty::before{color:#b7b7b5}
+body.skin-notion .send-btn{background:#2383e2;border-radius:6px;width:32px;height:32px}
+body.skin-notion .send-btn:hover{background:#1b6cb5}
+body.skin-notion .chat-input-area{border-top:none;padding-top:16px}
+body.skin-notion .header-icon-btn{color:#9b9a97}
+body.skin-notion .header-icon-btn:hover{background:rgba(55,53,47,.04)}
+body.skin-notion .user-avatar{background:#e16259;font-family:-apple-system,sans-serif}
+body.skin-notion .header-icon-label{color:#9b9a97}
+/* -- Notion scrollbar (invisible) -- */
+body.skin-notion .document-area::-webkit-scrollbar{width:8px}
+body.skin-notion .document-area::-webkit-scrollbar-thumb{background:transparent}
+body.skin-notion .document-area:hover::-webkit-scrollbar-thumb{background:rgba(55,53,47,.08)}
+body.skin-notion .document-area::-webkit-scrollbar-thumb:hover{background:rgba(55,53,47,.16)}
 
-/* === MULTI-SKIN: TERMINAL === */
-body.skin-terminal{--doc-bg:#1e1e1e;--page-bg:#1e1e1e;--header-bg:#2d2d2d;--menu-bg:#2d2d2d;--toolbar-bg:#252525;--text-primary:#d4d4d4;--text-secondary:#808080;--text-light:#666;--border-color:#404040;--ai-label-color:#4ec9b0;--user-label-color:#ce9178;--shadow-page:none;--status-bg:#1e1e1e;--font-doc:'Roboto Mono','Consolas',monospace}
-body.skin-terminal .page{border-radius:0;width:100%;max-width:100%;padding:16px 24px;font-size:13px;min-height:auto}
+/* ================================================================
+   MULTI-SKIN: TERMINAL (VS Code / iTerm2 / macOS Terminal)
+   ================================================================ */
+body.skin-terminal{
+  --doc-bg:#0c0c0c;--page-bg:#0c0c0c;--header-bg:#1e1e1e;--menu-bg:#1e1e1e;
+  --toolbar-bg:#181818;--text-primary:#cccccc;--text-secondary:#808080;
+  --text-light:#555;--border-color:#333;--ai-label-color:#4ec9b0;
+  --user-label-color:#ce9178;--shadow-page:none;--status-bg:#1e1e1e;
+  --hover-bg:rgba(255,255,255,.06);--modal-bg:#252526;--input-bg:#1e1e1e;
+  --font-doc:'SF Mono','Menlo','Monaco','Consolas','Roboto Mono',monospace}
+/* -- Full bleed terminal -- */
+body.skin-terminal .page{border-radius:0;width:100%;max-width:100%;padding:12px 20px;font-size:13px;min-height:auto;line-height:1.4;background:#0c0c0c}
+body.skin-terminal .document-area{padding:0;background:#0c0c0c}
 body.skin-terminal .toolbar{display:none}
 body.skin-terminal .ruler-container{display:none}
-body.skin-terminal .doc-title{font-family:'Roboto Mono',monospace;color:#4ec9b0;font-size:14px}
+/* -- Terminal title bar (dark bar with traffic lights feel) -- */
+body.skin-terminal .header-bar{background:#1e1e1e;height:38px;border-bottom:1px solid #333}
+body.skin-terminal .doc-icon{display:none}
+body.skin-terminal .doc-title{font-family:'SF Mono','Menlo',monospace;color:#4ec9b0;font-size:12px;font-weight:400;width:auto}
+body.skin-terminal .doc-title:hover{border:none!important;padding:2px 6px!important;background:rgba(255,255,255,.05)}
 body.skin-terminal .doc-subtitle{display:none}
+/* -- Hide non-terminal elements -- */
 body.skin-terminal .share-btn{display:none}
-body.skin-terminal .user-avatar{background:#4ec9b0;color:#1e1e1e}
-body.skin-terminal .chat-input::before{content:'> '}
-body.skin-terminal .chat-input{font-family:'Roboto Mono',monospace}
-body.skin-terminal .message-content{font-family:'Roboto Mono',monospace;font-size:13px;line-height:1.5}
-body.skin-terminal .menu-item{color:#808080}
-body.skin-terminal .send-btn{background:#4ec9b0;border-radius:4px}
+body.skin-terminal .menu-bar{height:24px;padding:0 8px;border-bottom:1px solid #333}
+body.skin-terminal .menu-item{color:#808080;font-family:'SF Mono',monospace;font-size:12px;padding:2px 10px}
+body.skin-terminal .menu-item:hover{color:#ccc;background:rgba(255,255,255,.05)}
+/* -- Terminal prompt style chat -- */
+body.skin-terminal .persona-bar{border-bottom:1px solid #333;padding-bottom:6px;margin-bottom:8px}
+body.skin-terminal .persona-label{color:#555;font-family:'SF Mono',monospace;font-size:11px}
+body.skin-terminal .persona-chip{border:1px solid #404040;background:transparent;color:#808080;border-radius:3px;font-family:'SF Mono',monospace;font-size:11px}
+body.skin-terminal .persona-chip:hover{color:#ccc;border-color:#666}
+body.skin-terminal .persona-chip.active{background:#4ec9b0;color:#0c0c0c;border-color:#4ec9b0}
+/* -- Message style: PS1 prompt -- */
+body.skin-terminal .chat-message.user .message-label{color:#ce9178;font-family:'SF Mono',monospace;font-size:12px}
+body.skin-terminal .chat-message.user .message-label::before{content:'$ ';color:#569cd6}
+body.skin-terminal .chat-message.ai .message-label{color:#4ec9b0;font-family:'SF Mono',monospace;font-size:12px}
+body.skin-terminal .chat-message.ai .message-label::before{content:'> ';color:#dcdcaa}
+body.skin-terminal .message-content{font-family:'SF Mono','Menlo','Consolas',monospace;font-size:13px;line-height:1.4;color:#d4d4d4}
+body.skin-terminal .chat-message{margin-bottom:6px}
+/* -- Terminal input (command line) -- */
+body.skin-terminal .chat-input-area{border-top:1px solid #333;padding-top:8px;align-items:center}
+body.skin-terminal .chat-input{font-family:'SF Mono','Menlo',monospace;font-size:13px;color:#d4d4d4;caret-color:#4ec9b0}
+body.skin-terminal .chat-input:empty::before{content:'$ type command...';color:#555;font-family:'SF Mono',monospace}
+body.skin-terminal .send-btn{background:#4ec9b0;border-radius:3px;width:28px;height:28px}
+body.skin-terminal .send-btn:hover{background:#3db79b}
+body.skin-terminal .send-btn .material-icons{font-size:16px}
+/* -- Terminal status bar -- */
+body.skin-terminal .status-bar{background:#1e1e1e;border-top:1px solid #333;height:24px}
+body.skin-terminal .status-bar *{font-family:'SF Mono',monospace!important;font-size:11px!important}
+body.skin-terminal .user-avatar{background:#4ec9b0;color:#0c0c0c;font-family:'SF Mono',monospace;font-size:12px;width:28px;height:28px}
+body.skin-terminal .header-icon-btn{color:#808080}
+body.skin-terminal .header-icon-btn:hover{background:rgba(255,255,255,.06)}
+body.skin-terminal .header-icon-label{color:#666;font-family:'SF Mono',monospace;font-size:8px}
+/* -- Boss mode in terminal -- */
+body.skin-terminal .boss-content{font-family:'SF Mono',monospace;font-size:13px;line-height:1.4;color:#d4d4d4}
+body.skin-terminal .boss-content h1{font-size:16px;color:#569cd6;font-weight:400}
+body.skin-terminal .boss-content h2{font-size:14px;color:#dcdcaa;font-weight:400}
+body.skin-terminal .boss-content h3{font-size:13px;color:#ce9178;font-weight:400}
+body.skin-terminal .boss-content table th{background:#2d2d2d;color:#4ec9b0;border-color:#404040}
+body.skin-terminal .boss-content table td{border-color:#404040}
+/* -- Terminal scrollbar -- */
+body.skin-terminal .document-area::-webkit-scrollbar{width:10px}
+body.skin-terminal .document-area::-webkit-scrollbar-track{background:#0c0c0c}
+body.skin-terminal .document-area::-webkit-scrollbar-thumb{background:#444;border-radius:0}
+body.skin-terminal .document-area::-webkit-scrollbar-thumb:hover{background:#666}
+/* -- Blinking cursor animation -- */
+body.skin-terminal .chat-input:focus{animation:termCursor 1s step-end infinite}
+@keyframes termCursor{50%{border-right:2px solid #4ec9b0}}
 
 /* === TEAM STEALTH === */
 .header-icon-btn{position:relative}
