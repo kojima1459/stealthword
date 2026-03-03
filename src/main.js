@@ -6,6 +6,7 @@
 import './style.css';
 import { ChatManager, SettingsManager, PERSONAS } from './chat.js';
 import { BossMode } from './boss-mode.js';
+import { TeamStealth } from './team-stealth.js';
 
 document.title = '無題のドキュメント - Google ドキュメント';
 
@@ -344,3 +345,127 @@ document.querySelectorAll('.menu-item').forEach(el => {
 // Focus
 setTimeout(() => { document.getElementById('chat-input')?.focus(); }, 100);
 console.log('🔒 StealthWord v2.0 initialized');
+
+// === TEAM STEALTH ===
+const team = new TeamStealth();
+const teamPage = document.getElementById('team-page');
+const teamMessages = document.getElementById('team-messages');
+const teamInput = document.getElementById('team-input');
+const teamBadge = document.getElementById('team-badge');
+const teamRoomLabel = document.getElementById('team-room-label');
+const teamAvatars = document.getElementById('team-member-avatars');
+const ROOM_WORDS = ['alpha', 'bravo', 'delta', 'echo', 'fox', 'golf', 'hotel', 'lima', 'oscar', 'papa', 'romeo', 'sierra', 'tango', 'victor', 'zulu'];
+
+// Open team modal
+document.getElementById('btn-team').addEventListener('click', () => {
+  if (team.isActive) {
+    switchToTeam();
+  } else {
+    document.getElementById('team-nickname').value = team.nickname;
+    document.getElementById('team-room-code').value = '';
+    document.getElementById('team-overlay').style.display = 'flex';
+  }
+});
+
+// Generate random room code
+document.getElementById('team-generate').addEventListener('click', () => {
+  const w1 = ROOM_WORDS[Math.floor(Math.random() * ROOM_WORDS.length)];
+  const w2 = ROOM_WORDS[Math.floor(Math.random() * ROOM_WORDS.length)];
+  const num = Math.floor(Math.random() * 100);
+  document.getElementById('team-room-code').value = `${w1}-${w2}-${num}`;
+});
+
+// Join room
+document.getElementById('team-join').addEventListener('click', () => {
+  const roomCode = document.getElementById('team-room-code').value.trim();
+  const nickname = document.getElementById('team-nickname').value.trim();
+  if (!roomCode) { alert('ルームコードを入力してください'); return; }
+  team.join(roomCode, nickname || undefined);
+  document.getElementById('team-overlay').style.display = 'none';
+  switchToTeam();
+  teamRoomLabel.textContent = `ルーム: ${roomCode}`;
+  // Add system msg
+  addTeamSystemMsg('ルームに参加しました。Escで業務文書に切り替え可能。');
+});
+
+// Leave room
+document.getElementById('team-leave').addEventListener('click', () => {
+  team.leave();
+  switchToAI();
+  teamMessages.innerHTML = '';
+  teamBadge.style.display = 'none';
+});
+
+// Team send
+function teamSend() {
+  const text = teamInput.innerText.trim();
+  if (!text) return;
+  team.sendMessage(text);
+  teamInput.innerText = '';
+}
+teamInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); teamSend(); }
+});
+document.getElementById('team-send-btn').addEventListener('click', teamSend);
+
+// Receive messages
+team.onMessage = (msg, isSelf) => {
+  if (msg.type === 'system') {
+    addTeamSystemMsg(msg.content);
+  } else {
+    addTeamMsg(msg, isSelf);
+  }
+};
+
+team.onMembersChange = (members) => {
+  // Update badge
+  if (team.isActive) {
+    teamBadge.textContent = members.length;
+    teamBadge.style.display = members.length > 0 ? 'flex' : 'none';
+  }
+  // Update avatars
+  teamAvatars.innerHTML = '';
+  members.forEach(m => {
+    const av = document.createElement('span');
+    av.className = 'team-member-avatar' + (m.nickname === team.nickname ? ' is-me' : '');
+    av.style.background = m.color;
+    av.textContent = m.nickname;
+    teamAvatars.appendChild(av);
+  });
+};
+
+function addTeamMsg(msg, isSelf) {
+  const div = document.createElement('div');
+  div.className = 'team-msg';
+  const time = new Date(msg.timestamp).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+  div.innerHTML = `<div class="team-msg-label" style="color:${msg.color}">${escHtml(msg.nickname)}: <span class="team-msg-time">${time}</span></div><div class="team-msg-content">${escHtml(msg.content)}</div>`;
+  teamMessages.appendChild(div);
+  teamMessages.scrollTop = teamMessages.scrollHeight;
+}
+
+function addTeamSystemMsg(text) {
+  const div = document.createElement('div');
+  div.className = 'team-msg-system';
+  div.textContent = `— ${text} —`;
+  teamMessages.appendChild(div);
+  teamMessages.scrollTop = teamMessages.scrollHeight;
+}
+
+function escHtml(s) {
+  const d = document.createElement('div'); d.textContent = s;
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+function switchToTeam() {
+  document.getElementById('chat-page').style.display = 'none';
+  teamPage.style.display = 'block';
+  teamBadge.textContent = team.getMemberCount();
+  teamBadge.style.display = 'flex';
+  setTimeout(() => teamInput.focus(), 50);
+}
+
+function switchToAI() {
+  teamPage.style.display = 'none';
+  document.getElementById('chat-page').style.display = 'block';
+  setTimeout(() => document.getElementById('chat-input')?.focus(), 50);
+}

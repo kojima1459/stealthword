@@ -95,6 +95,10 @@
         <div class="header-icon-btn" id="btn-timer" title="タイマー">
           <span class="material-icons">timer</span>
         </div>
+        <div class="header-icon-btn" id="btn-team" title="チームステルス">
+          <span class="material-icons">group</span>
+          <span class="team-badge" id="team-badge" style="display:none">0</span>
+        </div>
         <div class="header-icon-btn" id="btn-share-screenshot" title="スクリーンショット共有">
           <span class="material-icons">share</span>
         </div>
@@ -205,6 +209,27 @@
           <button class="send-btn" id="send-btn" title="送信 (Enter)">
             <span class="material-icons">send</span>
           </button>
+        </div>
+      </div>
+
+      <!-- TEAM STEALTH PAGE -->
+      <div class="page team-page" id="team-page" style="display:none">
+        <div class="team-layout">
+          <div class="team-members-bar" id="team-members-bar">
+            <div class="team-room-info">
+              <span class="material-icons" style="font-size:14px;color:var(--google-blue)">meeting_room</span>
+              <span id="team-room-label">ルーム: ---</span>
+            </div>
+            <div class="team-member-avatars" id="team-member-avatars"></div>
+            <button class="team-leave-btn" id="team-leave"><span class="material-icons" style="font-size:16px">logout</span> 退出</button>
+          </div>
+          <div class="team-messages" id="team-messages"></div>
+          <div class="chat-input-area">
+            <div id="team-input" class="chat-input" contenteditable="true" data-placeholder="チームメンバーに入力..."></div>
+            <button class="send-btn" id="team-send-btn" title="送信">
+              <span class="material-icons">send</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -364,6 +389,40 @@ Escキー押すだけでAIチャットが議事録になるwww
 
 #StealthWord #AIツール #仕事効率化</textarea>
             <button class="share-copy-btn" id="copy-template"><span class="material-icons">content_copy</span> コピー</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TEAM STEALTH MODAL ===== -->
+    <div id="team-overlay" class="modal-overlay" style="display:none">
+      <div class="modal-card team-modal-card">
+        <div class="modal-header">
+          <h2>🤝 チームステルス</h2>
+          <button class="modal-close" data-close="team-overlay"><span class="material-icons">close</span></button>
+        </div>
+        <div class="team-modal-body">
+          <p class="team-modal-desc">同僚と「共同編集風」リアルタイムチャット。<br>同じルームコードを入力するだけで即座につながります。</p>
+          <div class="team-modal-section">
+            <label>ニックネーム</label>
+            <input type="text" id="team-nickname" class="settings-input" placeholder="匿名のキツネ" />
+          </div>
+          <div class="team-modal-section">
+            <label>ルームコード</label>
+            <div class="team-room-row">
+              <input type="text" id="team-room-code" class="settings-input" placeholder="例: project-alpha" />
+              <button class="team-generate-btn" id="team-generate" title="ランダム生成">
+                <span class="material-icons">casino</span>
+              </button>
+            </div>
+          </div>
+          <div class="team-modal-actions">
+            <button class="settings-btn-primary team-join-btn" id="team-join">入室する</button>
+          </div>
+          <div class="team-modal-hint">
+            <span class="material-icons" style="font-size:14px">info</span>
+            同じブラウザの複数タブで同じルームコードを入力すると接続されます。<br>
+            別のタブを開いて試してみてください！
           </div>
         </div>
       </div>
