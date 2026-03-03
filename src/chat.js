@@ -34,8 +34,25 @@ export class SettingsManager {
     MSG_COUNT: 'sw-msg-count', SESSION_START: 'sw-session-start',
     DAILY_TIP_DATE: 'sw-tip-date',
   };
-  static get apiKey() { return localStorage.getItem(this.KEYS.API_KEY) || ''; }
-  static set apiKey(v) { localStorage.setItem(this.KEYS.API_KEY, v); }
+  // [REFACTOR S1] APIキーの平文保存防止（XOR+Base64簡易難読化）
+  static _encode(str) {
+    if (!str) return '';
+    const mask = 'stealth-key';
+    const xor = Array.from(str).map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ mask.charCodeAt(i % mask.length))).join('');
+    return 'enc:' + btoa(xor);
+  }
+  static _decode(val) {
+    if (!val) return '';
+    if (!val.startsWith('enc:')) return val; // 旧バージョン（平文）の互換性
+    try {
+      const mask = 'stealth-key';
+      const xor = atob(val.slice(4));
+      return Array.from(xor).map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ mask.charCodeAt(i % mask.length))).join('');
+    } catch { return ''; }
+  }
+
+  static get apiKey() { return this._decode(localStorage.getItem(this.KEYS.API_KEY)); }
+  static set apiKey(v) { localStorage.setItem(this.KEYS.API_KEY, this._encode(v)); }
   static get provider() { return localStorage.getItem(this.KEYS.PROVIDER) || 'mock'; }
   static set provider(v) { localStorage.setItem(this.KEYS.PROVIDER, v); }
   static get model() { return localStorage.getItem(this.KEYS.MODEL) || 'gemini-2.5-flash'; }
