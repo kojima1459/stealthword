@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>無題のドキュメント - Google ドキュメント</title>
+    <meta name="description" content="Google ドキュメント" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Google+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- ===== HEADER BAR ===== -->
+    <header class="header-bar">
+      <div class="header-left">
+        <div class="doc-icon">
+          <svg viewBox="0 0 48 48" width="28" height="28">
+            <path fill="#4285F4" d="M7 2h24l10 10v34H7z" />
+            <path fill="#A1C2FA" d="M31 2l10 10H31z" />
+            <path fill="#fff" d="M13 22h22v2H13zm0 5h22v2H13zm0 5h16v2H13z" />
+          </svg>
+        </div>
+        <div class="doc-title-area">
+          <input
+            class="doc-title"
+            value="無題のドキュメント"
+            spellcheck="false"
+          />
+          <div class="doc-subtitle">
+            <span class="star-icon">☆</span>
+            <span class="move-icon">📁</span>
+            <span class="cloud-status">
+              <span
+                class="material-icons"
+                style="font-size: 14px; color: #5f6368"
+                >cloud_done</span
+              >
+              ドライブに保存しました
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="header-icon-btn" title="コメント履歴">
+          <span class="material-icons">chat_bubble_outline</span>
+        </div>
+        <div class="header-icon-btn" title="Google Meet">
+          <span class="material-icons">videocam</span>
+        </div>
+        <button class="share-btn">
+          <span class="material-icons" style="font-size: 18px">lock</span>
+          共有
+        </button>
+        <div class="user-avatar">M</div>
+      </div>
+    </header>
+
+    <!-- ===== MENU BAR ===== -->
+    <nav class="menu-bar">
+      <span class="menu-item">ファイル</span>
+      <span class="menu-item">編集</span>
+      <span class="menu-item">表示</span>
+      <span class="menu-item">挿入</span>
+      <span class="menu-item">書式</span>
+      <span class="menu-item">ツール</span>
+      <span class="menu-item">拡張機能</span>
+      <span class="menu-item">ヘルプ</span>
+    </nav>
+
+    <!-- ===== TOOLBAR ===== -->
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <button class="toolbar-btn" title="元に戻す">
+          <span class="material-icons">undo</span>
+        </button>
+        <button class="toolbar-btn" title="やり直す">
+          <span class="material-icons">redo</span>
+        </button>
+        <button class="toolbar-btn" title="印刷">
+          <span class="material-icons">print</span>
+        </button>
+        <button class="toolbar-btn" title="スペルチェック">
+          <span class="material-icons">spellcheck</span>
+        </button>
+        <button class="toolbar-btn" title="ペイント形式">
+          <span class="material-icons">format_paint</span>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <select class="toolbar-select toolbar-zoom">
+          <option>100%</option>
+        </select>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <select class="toolbar-select toolbar-style">
+          <option>標準テキスト</option>
+          <option>タイトル</option>
+          <option>見出し1</option>
+          <option>見出し2</option>
+          <option>見出し3</option>
+        </select>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <select class="toolbar-select toolbar-font">
+          <option>Arial</option>
+          <option>Roboto</option>
+          <option>Times New Roman</option>
+          <option>Georgia</option>
+          <option>メイリオ</option>
+        </select>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button
+          class="toolbar-btn font-size-btn"
+          title="フォントサイズを小さくする"
+        >
+          <span class="material-icons">remove</span>
+        </button>
+        <input class="toolbar-input font-size-input" value="11" size="2" />
+        <button
+          class="toolbar-btn font-size-btn"
+          title="フォントサイズを大きくする"
+        >
+          <span class="material-icons">add</span>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="toolbar-btn" title="太字">
+          <span class="material-icons">format_bold</span>
+        </button>
+        <button class="toolbar-btn" title="斜体">
+          <span class="material-icons">format_italic</span>
+        </button>
+        <button class="toolbar-btn" title="下線">
+          <span class="material-icons">format_underlined</span>
+        </button>
+        <button class="toolbar-btn" title="テキストの色">
+          <span class="material-icons">format_color_text</span>
+        </button>
+        <button class="toolbar-btn" title="ハイライト色">
+          <span class="material-icons">highlight</span>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="toolbar-btn" title="リンクを挿入">
+          <span class="material-icons">insert_link</span>
+        </button>
+        <button class="toolbar-btn" title="コメントを追加">
+          <span class="material-icons">add_comment</span>
+        </button>
+        <button class="toolbar-btn" title="画像を挿入">
+          <span class="material-icons">image</span>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="toolbar-btn" title="左揃え">
+          <span class="material-icons">format_align_left</span>
+        </button>
+        <button class="toolbar-btn" title="中央揃え">
+          <span class="material-icons">format_align_center</span>
+        </button>
+        <button class="toolbar-btn" title="右揃え">
+          <span class="material-icons">format_align_right</span>
+        </button>
+        <button class="toolbar-btn" title="均等割付">
+          <span class="material-icons">format_align_justify</span>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="toolbar-btn" title="行間隔と段落の間隔">
+          <span class="material-icons">format_line_spacing</span>
+        </button>
+        <button class="toolbar-btn" title="番号付きリスト">
+          <span class="material-icons">format_list_numbered</span>
+        </button>
+        <button class="toolbar-btn" title="箇条書き">
+          <span class="material-icons">format_list_bulleted</span>
+        </button>
+        <button class="toolbar-btn" title="インデント減">
+          <span class="material-icons">format_indent_decrease</span>
+        </button>
+        <button class="toolbar-btn" title="インデント増">
+          <span class="material-icons">format_indent_increase</span>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-group">
+        <button class="toolbar-btn" title="書式のクリア">
+          <span class="material-icons">format_clear</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== RULER ===== -->
+    <div class="ruler-container">
+      <div class="ruler">
+        <div class="ruler-marks"></div>
+      </div>
+    </div>
+
+    <!-- ===== DOCUMENT AREA (= CHAT AREA) ===== -->
+    <main class="document-area">
+      <div class="page" id="chat-page">
+        <div id="chat-messages" class="chat-messages">
+          <!-- Chat messages appear here, styled as document text -->
+        </div>
+        <div class="chat-input-area">
+          <div
+            id="chat-input"
+            class="chat-input"
+            contenteditable="true"
+            data-placeholder="ここに入力してください..."
+          ></div>
+        </div>
+      </div>
+
+      <!-- BOSS MODE: Dummy document (hidden by default) -->
+      <div class="page boss-page" id="boss-page" style="display: none">
+        <div id="boss-content" class="boss-content"></div>
+      </div>
+    </main>
+
+    <!-- ===== STATUS BAR ===== -->
+    <footer class="status-bar">
+      <div class="status-left">
+        <span class="page-count">
+          <span class="material-icons" style="font-size: 14px"
+            >description</span
+          >
+          <span id="status-pages">1 / 1 ページ</span>
+        </span>
+        <span class="word-count" id="status-words">0 文字</span>
+      </div>
+      <div class="status-right">
+        <button class="status-btn" title="ドキュメントの詳細を表示">
+          <span class="material-icons" style="font-size: 16px"
+            >info_outline</span
+          >
+        </button>
+        <button class="status-btn" title="入力ツール">
+          <span class="material-icons" style="font-size: 16px">keyboard</span>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Boss mode indicator (hidden, shows briefly) -->
+    <div id="boss-indicator" class="boss-indicator" style="display: none">
+      <span class="material-icons">shield</span> ボスモード ON — Escで戻る
+    </div>
+
+    <!-- ===== API KEY SETTINGS MODAL ===== -->
+    <div id="settings-overlay" class="settings-overlay" style="display:none">
+      <div class="settings-modal">
+        <div class="settings-header">
+          <h2>設定</h2>
+          <button class="settings-close" id="settings-close">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        <div class="settings-body">
+          <div class="settings-section">
+            <h3>AI設定</h3>
+            <div class="settings-field">
+              <label for="api-provider">AIプロバイダー</label>
+              <select id="api-provider" class="settings-select">
+                <option value="gemini">Google Gemini</option>
+                <option value="mock">モック（デモ用）</option>
+              </select>
+            </div>
+            <div class="settings-field" id="api-key-field">
+              <label for="api-key-input">APIキー</label>
+              <div class="api-key-row">
+                <input type="password" id="api-key-input" class="settings-input" placeholder="Gemini APIキーを入力..." />
+                <button class="toggle-visibility" id="toggle-key-visibility" title="表示/非表示">
+                  <span class="material-icons">visibility</span>
+                </button>
+              </div>
+              <p class="settings-hint">
+                <span class="material-icons" style="font-size:14px;vertical-align:middle;">info</span>
+                APIキーはブラウザのローカルストレージに保存されます。サーバーには送信されません。
+              </p>
+            </div>
+            <div class="settings-field">
+              <label for="api-model">モデル</label>
+              <select id="api-model" class="settings-select">
+                <option value="gemini-3.1-pro">Gemini 3.1 Pro（最新モデル）</option>
+                <option value="gemini-2.5-pro">Gemini 2.5 Pro（高品質）</option>
+                <option value="gemini-2.5-flash">Gemini 2.5 Flash（高速）</option>
+              </select>
+            </div>
+            <div class="settings-field">
+              <label for="system-prompt">システムプロンプト</label>
+              <textarea id="system-prompt" class="settings-textarea" rows="3" placeholder="AIの振る舞いを指定...">あなたは優秀なビジネスアシスタントです。丁寧な日本語で、ビジネス文書のような口調で回答してください。</textarea>
+            </div>
+          </div>
+          <div class="settings-status" id="settings-status"></div>
+        </div>
+        <div class="settings-footer">
+          <button class="settings-btn-secondary" id="settings-cancel">キャンセル</button>
+          <button class="settings-btn-primary" id="settings-save">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
