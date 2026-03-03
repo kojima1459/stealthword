@@ -1,0 +1,16 @@
+{
+    "name": "Google Docs",
+    "short_name": "Docs",
+    "description": "Google ドキュメント",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1a73e8",
+    "icons": [
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path fill='%234285F4' d='M7 2h24l10 10v34H7z'/><path fill='%23A1C2FA' d='M31 2l10 10H31z'/><path fill='%23FFF' d='M13 22h22v2H13zm0 5h22v2H13zm0 5h16v2H13z'/></svg>",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ]
+}

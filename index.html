@@ -4,11 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>無題のドキュメント - Google ドキュメント</title>
-    <meta name="description" content="Google ドキュメント" />
+    <meta name="description" content="StealthWord — 見た目はGoogle Docs。中身はAIチャット。仕事中にこっそりAIを活用。" />
+    
+    <!-- OGP / Social Cards -->
+    <meta property="og:title" content="StealthWord — 見た目はDocs。中身はAI。" />
+    <meta property="og:description" content="上司の前ではWord。一人の時はAI。職場で安全に使えるステルスAIチャット。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stealthword.vercel.app" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="StealthWord — 見た目はDocs。中身はAI。" />
+    <meta name="twitter:description" content="Escを押すだけで、AIチャットが議事録になる。" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1a73e8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Google Docs" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Google+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Google+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link
@@ -18,6 +34,38 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
+    <!-- ===== TUTORIAL OVERLAY (first visit only) ===== -->
+    <div id="tutorial-overlay" class="tutorial-overlay" style="display:none">
+      <div class="tutorial-card" id="tutorial-card">
+        <div class="tutorial-step" data-step="0">
+          <div class="tutorial-emoji">🔒</div>
+          <h2>StealthWord へようこそ</h2>
+          <p>見た目はGoogle Docs。中身はAIチャット。<br>職場で安全にAIを活用できるツールです。</p>
+        </div>
+        <div class="tutorial-step" data-step="1" style="display:none">
+          <div class="tutorial-emoji">⌨️</div>
+          <h2>チャットの使い方</h2>
+          <p>下の入力欄にメッセージを入力して<br><kbd>Enter</kbd> または 送信ボタンで送信。<br><kbd>Shift+Enter</kbd> で改行できます。</p>
+        </div>
+        <div class="tutorial-step" data-step="2" style="display:none">
+          <div class="tutorial-emoji">🛡️</div>
+          <h2>ボスキターモード</h2>
+          <p><kbd>Esc</kbd> キーを押すと、一瞬でダミーの業務文書に切り替わります。もう一度 <kbd>Esc</kbd> で戻ります。</p>
+        </div>
+        <div class="tutorial-step" data-step="3" style="display:none">
+          <div class="tutorial-emoji">⚙️</div>
+          <h2>AIの設定</h2>
+          <p>メニューバーの <strong>ツール</strong> をクリックすると設定画面が開きます。<br>自分のGemini APIキーを入力すると、本物のAIと会話できます。</p>
+        </div>
+        <div class="tutorial-nav">
+          <span class="tutorial-dots" id="tutorial-dots">
+            <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </span>
+          <button class="tutorial-btn" id="tutorial-next">次へ →</button>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== HEADER BAR ===== -->
     <header class="header-bar">
       <div class="header-left">
@@ -29,31 +77,26 @@
           </svg>
         </div>
         <div class="doc-title-area">
-          <input
-            class="doc-title"
-            value="無題のドキュメント"
-            spellcheck="false"
-          />
+          <input class="doc-title" value="無題のドキュメント" spellcheck="false" />
           <div class="doc-subtitle">
             <span class="star-icon">☆</span>
             <span class="move-icon">📁</span>
             <span class="cloud-status">
-              <span
-                class="material-icons"
-                style="font-size: 14px; color: #5f6368"
-                >cloud_done</span
-              >
+              <span class="material-icons" style="font-size: 14px; color: #5f6368">cloud_done</span>
               ドライブに保存しました
             </span>
           </div>
         </div>
       </div>
       <div class="header-right">
-        <div class="header-icon-btn" title="コメント履歴">
-          <span class="material-icons">chat_bubble_outline</span>
+        <div class="header-icon-btn" id="btn-dark-mode" title="ダークモード切替">
+          <span class="material-icons">dark_mode</span>
         </div>
-        <div class="header-icon-btn" title="Google Meet">
-          <span class="material-icons">videocam</span>
+        <div class="header-icon-btn" id="btn-timer" title="タイマー">
+          <span class="material-icons">timer</span>
+        </div>
+        <div class="header-icon-btn" id="btn-share-screenshot" title="スクリーンショット共有">
+          <span class="material-icons">share</span>
         </div>
         <button class="share-btn">
           <span class="material-icons" style="font-size: 18px">lock</span>
@@ -70,7 +113,7 @@
       <span class="menu-item">表示</span>
       <span class="menu-item">挿入</span>
       <span class="menu-item">書式</span>
-      <span class="menu-item">ツール</span>
+      <span class="menu-item" id="menu-tools">ツール</span>
       <span class="menu-item">拡張機能</span>
       <span class="menu-item">ヘルプ</span>
     </nav>
@@ -78,159 +121,94 @@
     <!-- ===== TOOLBAR ===== -->
     <div class="toolbar">
       <div class="toolbar-group">
-        <button class="toolbar-btn" title="元に戻す">
-          <span class="material-icons">undo</span>
-        </button>
-        <button class="toolbar-btn" title="やり直す">
-          <span class="material-icons">redo</span>
-        </button>
-        <button class="toolbar-btn" title="印刷">
-          <span class="material-icons">print</span>
-        </button>
-        <button class="toolbar-btn" title="スペルチェック">
-          <span class="material-icons">spellcheck</span>
-        </button>
-        <button class="toolbar-btn" title="ペイント形式">
-          <span class="material-icons">format_paint</span>
-        </button>
+        <button class="toolbar-btn" title="元に戻す"><span class="material-icons">undo</span></button>
+        <button class="toolbar-btn" title="やり直す"><span class="material-icons">redo</span></button>
+        <button class="toolbar-btn" title="印刷"><span class="material-icons">print</span></button>
+        <button class="toolbar-btn" title="スペルチェック"><span class="material-icons">spellcheck</span></button>
+        <button class="toolbar-btn" title="ペイント形式"><span class="material-icons">format_paint</span></button>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
-        <select class="toolbar-select toolbar-zoom">
-          <option>100%</option>
-        </select>
+        <select class="toolbar-select toolbar-zoom"><option>100%</option></select>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
         <select class="toolbar-select toolbar-style">
-          <option>標準テキスト</option>
-          <option>タイトル</option>
-          <option>見出し1</option>
-          <option>見出し2</option>
-          <option>見出し3</option>
+          <option>標準テキスト</option><option>タイトル</option><option>見出し1</option><option>見出し2</option><option>見出し3</option>
         </select>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
         <select class="toolbar-select toolbar-font">
-          <option>Arial</option>
-          <option>Roboto</option>
-          <option>Times New Roman</option>
-          <option>Georgia</option>
-          <option>メイリオ</option>
+          <option>Arial</option><option>Roboto</option><option>Times New Roman</option><option>メイリオ</option>
         </select>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
-        <button
-          class="toolbar-btn font-size-btn"
-          title="フォントサイズを小さくする"
-        >
-          <span class="material-icons">remove</span>
-        </button>
+        <button class="toolbar-btn font-size-btn" title="フォントサイズを小さくする"><span class="material-icons">remove</span></button>
         <input class="toolbar-input font-size-input" value="11" size="2" />
-        <button
-          class="toolbar-btn font-size-btn"
-          title="フォントサイズを大きくする"
-        >
-          <span class="material-icons">add</span>
-        </button>
+        <button class="toolbar-btn font-size-btn" title="フォントサイズを大きくする"><span class="material-icons">add</span></button>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
-        <button class="toolbar-btn" title="太字">
-          <span class="material-icons">format_bold</span>
-        </button>
-        <button class="toolbar-btn" title="斜体">
-          <span class="material-icons">format_italic</span>
-        </button>
-        <button class="toolbar-btn" title="下線">
-          <span class="material-icons">format_underlined</span>
-        </button>
-        <button class="toolbar-btn" title="テキストの色">
-          <span class="material-icons">format_color_text</span>
-        </button>
-        <button class="toolbar-btn" title="ハイライト色">
-          <span class="material-icons">highlight</span>
-        </button>
+        <button class="toolbar-btn" title="太字"><span class="material-icons">format_bold</span></button>
+        <button class="toolbar-btn" title="斜体"><span class="material-icons">format_italic</span></button>
+        <button class="toolbar-btn" title="下線"><span class="material-icons">format_underlined</span></button>
+        <button class="toolbar-btn" title="テキストの色"><span class="material-icons">format_color_text</span></button>
+        <button class="toolbar-btn" title="ハイライト色"><span class="material-icons">highlight</span></button>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
-        <button class="toolbar-btn" title="リンクを挿入">
-          <span class="material-icons">insert_link</span>
-        </button>
-        <button class="toolbar-btn" title="コメントを追加">
-          <span class="material-icons">add_comment</span>
-        </button>
-        <button class="toolbar-btn" title="画像を挿入">
-          <span class="material-icons">image</span>
-        </button>
+        <button class="toolbar-btn" title="リンクを挿入"><span class="material-icons">insert_link</span></button>
+        <button class="toolbar-btn" title="コメントを追加"><span class="material-icons">add_comment</span></button>
+        <button class="toolbar-btn" title="画像を挿入"><span class="material-icons">image</span></button>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
-        <button class="toolbar-btn" title="左揃え">
-          <span class="material-icons">format_align_left</span>
-        </button>
-        <button class="toolbar-btn" title="中央揃え">
-          <span class="material-icons">format_align_center</span>
-        </button>
-        <button class="toolbar-btn" title="右揃え">
-          <span class="material-icons">format_align_right</span>
-        </button>
-        <button class="toolbar-btn" title="均等割付">
-          <span class="material-icons">format_align_justify</span>
-        </button>
+        <button class="toolbar-btn" title="左揃え"><span class="material-icons">format_align_left</span></button>
+        <button class="toolbar-btn" title="中央揃え"><span class="material-icons">format_align_center</span></button>
+        <button class="toolbar-btn" title="右揃え"><span class="material-icons">format_align_right</span></button>
       </div>
       <div class="toolbar-divider"></div>
       <div class="toolbar-group">
-        <button class="toolbar-btn" title="行間隔と段落の間隔">
-          <span class="material-icons">format_line_spacing</span>
-        </button>
-        <button class="toolbar-btn" title="番号付きリスト">
-          <span class="material-icons">format_list_numbered</span>
-        </button>
-        <button class="toolbar-btn" title="箇条書き">
-          <span class="material-icons">format_list_bulleted</span>
-        </button>
-        <button class="toolbar-btn" title="インデント減">
-          <span class="material-icons">format_indent_decrease</span>
-        </button>
-        <button class="toolbar-btn" title="インデント増">
-          <span class="material-icons">format_indent_increase</span>
-        </button>
-      </div>
-      <div class="toolbar-divider"></div>
-      <div class="toolbar-group">
-        <button class="toolbar-btn" title="書式のクリア">
-          <span class="material-icons">format_clear</span>
-        </button>
+        <button class="toolbar-btn" title="番号付きリスト"><span class="material-icons">format_list_numbered</span></button>
+        <button class="toolbar-btn" title="箇条書き"><span class="material-icons">format_list_bulleted</span></button>
       </div>
     </div>
 
     <!-- ===== RULER ===== -->
     <div class="ruler-container">
-      <div class="ruler">
-        <div class="ruler-marks"></div>
-      </div>
+      <div class="ruler"><div class="ruler-marks"></div></div>
     </div>
 
     <!-- ===== DOCUMENT AREA (= CHAT AREA) ===== -->
     <main class="document-area">
-      <div class="page" id="chat-page">
-        <div id="chat-messages" class="chat-messages">
-          <!-- Chat messages appear here, styled as document text -->
+      <!-- Sidebar: Chat History -->
+      <aside class="chat-sidebar" id="chat-sidebar" style="display:none">
+        <div class="sidebar-header">
+          <h3>会話履歴</h3>
+          <button class="sidebar-close" id="sidebar-close"><span class="material-icons">close</span></button>
         </div>
+        <button class="sidebar-new-btn" id="sidebar-new"><span class="material-icons">add</span> 新しい会話</button>
+        <div class="sidebar-list" id="sidebar-list"></div>
+      </aside>
+
+      <div class="page" id="chat-page">
+        <!-- Persona selector bar -->
+        <div class="persona-bar" id="persona-bar">
+          <span class="persona-label">ペルソナ:</span>
+          <div class="persona-chips" id="persona-chips"></div>
+        </div>
+        <div id="chat-messages" class="chat-messages"></div>
         <div class="chat-input-area">
-          <div
-            id="chat-input"
-            class="chat-input"
-            contenteditable="true"
-            data-placeholder="ここに入力してください..."
-          ></div>
+          <div id="chat-input" class="chat-input" contenteditable="true" data-placeholder="ここに入力してください..."></div>
+          <button class="send-btn" id="send-btn" title="送信 (Enter)">
+            <span class="material-icons">send</span>
+          </button>
         </div>
       </div>
 
-      <!-- BOSS MODE: Dummy document (hidden by default) -->
+      <!-- BOSS MODE -->
       <div class="page boss-page" id="boss-page" style="display: none">
         <div id="boss-content" class="boss-content"></div>
       </div>
@@ -240,38 +218,170 @@
     <footer class="status-bar">
       <div class="status-left">
         <span class="page-count">
-          <span class="material-icons" style="font-size: 14px"
-            >description</span
-          >
+          <span class="material-icons" style="font-size: 14px">description</span>
           <span id="status-pages">1 / 1 ページ</span>
         </span>
         <span class="word-count" id="status-words">0 文字</span>
+        <span class="stealth-score" id="stealth-score" title="ステルススコア">
+          <span class="material-icons" style="font-size: 14px">shield</span>
+          <span id="score-value">0</span>pts
+        </span>
       </div>
       <div class="status-right">
-        <button class="status-btn" title="ドキュメントの詳細を表示">
-          <span class="material-icons" style="font-size: 16px"
-            >info_outline</span
-          >
+        <button class="status-btn" id="btn-history" title="会話履歴">
+          <span class="material-icons" style="font-size: 16px">history</span>
         </button>
-        <button class="status-btn" title="入力ツール">
+        <button class="status-btn" id="btn-export" title="エクスポート">
+          <span class="material-icons" style="font-size: 16px">download</span>
+        </button>
+        <button class="status-btn" id="btn-shortcuts" title="ショートカット (Ctrl+/)">
           <span class="material-icons" style="font-size: 16px">keyboard</span>
+        </button>
+        <button class="status-btn" id="btn-skin" title="スキン切替">
+          <span class="material-icons" style="font-size: 16px">palette</span>
         </button>
       </div>
     </footer>
 
-    <!-- Boss mode indicator (hidden, shows briefly) -->
+    <!-- Boss mode indicator -->
     <div id="boss-indicator" class="boss-indicator" style="display: none">
       <span class="material-icons">shield</span> ボスモード ON — Escで戻る
     </div>
 
-    <!-- ===== API KEY SETTINGS MODAL ===== -->
+    <!-- ===== TIMER POPUP ===== -->
+    <div id="timer-popup" class="timer-popup" style="display:none">
+      <div class="timer-display" id="timer-display">05:00</div>
+      <div class="timer-controls">
+        <button class="timer-btn" data-time="180">3分</button>
+        <button class="timer-btn" data-time="300">5分</button>
+        <button class="timer-btn" data-time="600">10分</button>
+      </div>
+      <div class="timer-actions">
+        <button class="timer-action" id="timer-start"><span class="material-icons">play_arrow</span></button>
+        <button class="timer-action" id="timer-stop"><span class="material-icons">stop</span></button>
+      </div>
+      <p class="timer-hint">時間切れでボスモードに自動切替</p>
+    </div>
+
+    <!-- ===== KEYBOARD SHORTCUTS MODAL ===== -->
+    <div id="shortcuts-overlay" class="modal-overlay" style="display:none">
+      <div class="modal-card shortcuts-card">
+        <div class="modal-header">
+          <h2>キーボードショートカット</h2>
+          <button class="modal-close" data-close="shortcuts-overlay"><span class="material-icons">close</span></button>
+        </div>
+        <div class="shortcuts-grid">
+          <div class="shortcut-item"><kbd>Enter</kbd><span>メッセージ送信</span></div>
+          <div class="shortcut-item"><kbd>Shift+Enter</kbd><span>改行</span></div>
+          <div class="shortcut-item"><kbd>Esc</kbd><span>ボスモード切替</span></div>
+          <div class="shortcut-item"><kbd>Ctrl+/</kbd><span>ショートカット一覧</span></div>
+          <div class="shortcut-item"><kbd>Ctrl+E</kbd><span>会話エクスポート</span></div>
+          <div class="shortcut-item"><kbd>Ctrl+H</kbd><span>会話履歴</span></div>
+          <div class="shortcut-item"><kbd>Ctrl+D</kbd><span>ダークモード切替</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SKIN SWITCHER MODAL ===== -->
+    <div id="skin-overlay" class="modal-overlay" style="display:none">
+      <div class="modal-card skin-card">
+        <div class="modal-header">
+          <h2>スキン切替</h2>
+          <button class="modal-close" data-close="skin-overlay"><span class="material-icons">close</span></button>
+        </div>
+        <div class="skin-grid" id="skin-grid">
+          <div class="skin-option active" data-skin="google-docs">
+            <div class="skin-preview gdocs-preview"></div>
+            <span>Google Docs</span>
+          </div>
+          <div class="skin-option" data-skin="ms-word">
+            <div class="skin-preview word-preview"></div>
+            <span>MS Word</span>
+          </div>
+          <div class="skin-option" data-skin="notion">
+            <div class="skin-preview notion-preview"></div>
+            <span>Notion</span>
+          </div>
+          <div class="skin-option" data-skin="terminal">
+            <div class="skin-preview terminal-preview"></div>
+            <span>ターミナル</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STEALTH DIAGNOSIS MODAL ===== -->
+    <div id="diagnosis-overlay" class="modal-overlay" style="display:none">
+      <div class="modal-card diagnosis-card">
+        <div class="modal-header">
+          <h2>🔒 ステルス度診断</h2>
+          <button class="modal-close" data-close="diagnosis-overlay"><span class="material-icons">close</span></button>
+        </div>
+        <div class="diagnosis-body" id="diagnosis-body">
+          <div class="diagnosis-score-ring">
+            <svg viewBox="0 0 120 120" width="120" height="120">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#e8eaed" stroke-width="8"/>
+              <circle id="diagnosis-ring" cx="60" cy="60" r="52" fill="none" stroke="#1a73e8" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="327" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+            </svg>
+            <div class="diagnosis-score-text" id="diagnosis-score-text">0</div>
+          </div>
+          <div class="diagnosis-rank" id="diagnosis-rank">判定中...</div>
+          <div class="diagnosis-details" id="diagnosis-details"></div>
+          <button class="diagnosis-share-btn" id="diagnosis-share">
+            <span class="material-icons">share</span> 結果をシェア
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SHARE / INVITE MODAL ===== -->
+    <div id="share-overlay" class="modal-overlay" style="display:none">
+      <div class="modal-card share-card">
+        <div class="modal-header">
+          <h2>友達に教える</h2>
+          <button class="modal-close" data-close="share-overlay"><span class="material-icons">close</span></button>
+        </div>
+        <div class="share-body">
+          <p class="share-tagline">「見た目はDocs。中身はAI。」</p>
+          <div class="share-url-row">
+            <input type="text" class="share-url-input" id="share-url" value="https://stealthword.vercel.app" readonly />
+            <button class="share-copy-btn" id="share-copy"><span class="material-icons">content_copy</span></button>
+          </div>
+          <div class="share-social">
+            <button class="share-social-btn twitter" id="share-twitter">
+              <span>𝕏</span> でシェア
+            </button>
+            <button class="share-social-btn line" id="share-line">
+              LINE で送る
+            </button>
+          </div>
+          <div class="share-template">
+            <h4>投稿テンプレート</h4>
+            <textarea class="share-template-text" id="share-template" readonly>見た目はGoogle Docs、中身はAIチャット。
+仕事中にこっそりAI使える「StealthWord」がヤバい😂
+
+Escキー押すだけでAIチャットが議事録になるwww
+
+#StealthWord #AIツール #仕事効率化</textarea>
+            <button class="share-copy-btn" id="copy-template"><span class="material-icons">content_copy</span> コピー</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DAILY TIPS ===== -->
+    <div id="daily-tip" class="daily-tip" style="display:none">
+      <span class="material-icons" style="color:#fbbc04">lightbulb</span>
+      <span id="tip-text"></span>
+      <button class="tip-close" id="tip-close"><span class="material-icons" style="font-size:16px">close</span></button>
+    </div>
+
+    <!-- ===== SETTINGS MODAL ===== -->
     <div id="settings-overlay" class="settings-overlay" style="display:none">
       <div class="settings-modal">
         <div class="settings-header">
           <h2>設定</h2>
-          <button class="settings-close" id="settings-close">
-            <span class="material-icons">close</span>
-          </button>
+          <button class="settings-close" id="settings-close"><span class="material-icons">close</span></button>
         </div>
         <div class="settings-body">
           <div class="settings-section">
