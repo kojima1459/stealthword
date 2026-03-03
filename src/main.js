@@ -82,7 +82,8 @@ function refreshSidebar() {
     sidebarList.appendChild(item);
   });
 }
-window._refreshSidebar = refreshSidebar;
+// [REFACTOR D2] グローバル関数をCustomEventに置換
+window.addEventListener('sw:sidebar-refresh', refreshSidebar);
 document.getElementById('btn-history').addEventListener('click', () => {
   sidebar.style.display = sidebar.style.display === 'none' ? 'flex' : 'none';
   refreshSidebar();

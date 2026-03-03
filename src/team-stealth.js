@@ -110,9 +110,23 @@ export class TeamStealth {
   }
 
   /**
+   * [REFACTOR S3] 受信データのスキーマ検証を追加
+   */
+  _validateMessage(data) {
+    if (!data || typeof data !== 'object') return false;
+    if (!['join', 'leave', 'heartbeat', 'message'].includes(data.type)) return false;
+    if (typeof data.userId !== 'string') return false;
+    if (data.type === 'message' && typeof data.content !== 'string') return false;
+    if (data.type === 'message' && data.content.length > 10000) return false; // Max message length
+    return true;
+  }
+
+  /**
    * 内部: メッセージ処理
    */
   _handleMessage(data) {
+    // [S3] スキーマ検証
+    if (!this._validateMessage(data)) return;
     switch (data.type) {
       case 'join':
         this.members.set(data.userId, { nickname: data.nickname, color: data.color, lastSeen: Date.now() });

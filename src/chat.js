@@ -62,32 +62,68 @@ export class SettingsManager {
   static getConversations() {
     try { return JSON.parse(localStorage.getItem(this.KEYS.CONVERSATIONS) || '[]'); } catch { return []; }
   }
-  static saveConversations(convs) { localStorage.setItem(this.KEYS.CONVERSATIONS, JSON.stringify(convs)); }
+  // [REFACTOR E3] localStorage保存時にQuotaExceededErrorをキャッチし、古い会話を自動削除
+  static saveConversations(convs) {
+    try {
+      localStorage.setItem(this.KEYS.CONVERSATIONS, JSON.stringify(convs));
+    } catch (e) {
+      if (e.name === 'QuotaExceededError' && convs.length > 1) {
+        convs.splice(Math.floor(convs.length / 2)); // 半分削除してリトライ
+        try { localStorage.setItem(this.KEYS.CONVERSATIONS, JSON.stringify(convs)); }
+        catch { console.warn('localStorage quota exceeded, could not save conversations'); }
+      }
+    }
+  }
   static get activeConvId() { return localStorage.getItem(this.KEYS.ACTIVE_CONV) || ''; }
   static set activeConvId(v) { localStorage.setItem(this.KEYS.ACTIVE_CONV, v); }
 }
 
 // === Gemini API ===
+// [REFACTOR E1] APIキーをURLパラメータではなくヘッダーに移動（ブラウザ履歴・ログへの漏洩防止）
+// [REFACTOR E2] 指数バックオフ付きリトライ（最大3回）を追加
+const MAX_RETRIES = 3;
+const RETRY_BASE_MS = 500;
+
 async function callGeminiAPI(messages, systemPrompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${SettingsManager.model}:generateContent?key=${SettingsManager.apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${SettingsManager.model}:generateContent`;
   const contents = messages.filter(m => m.role === 'user' || m.role === 'ai').map(m => ({
     role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.content }]
   }));
-  const response = await fetch(url, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents, systemInstruction: { parts: [{ text: systemPrompt }] },
-      generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-    }),
+  const body = JSON.stringify({
+    contents, systemInstruction: { parts: [{ text: systemPrompt }] },
+    generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
   });
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error?.error?.message || `API Error: ${response.status}`);
+
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': SettingsManager.apiKey   // [E1] ヘッダー経由でAPIキー送信
+        },
+        body,
+      });
+      if (response.status === 429 || response.status >= 500) {
+        // Retryable error — wait and try again
+        if (attempt < MAX_RETRIES - 1) {
+          await new Promise(r => setTimeout(r, RETRY_BASE_MS * Math.pow(2, attempt)));
+          continue;
+        }
+      }
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error?.error?.message || `API Error: ${response.status}`);
+      }
+      const data = await response.json();
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) throw new Error('APIから応答を取得できませんでした');
+      return text;
+    } catch (err) {
+      if (attempt >= MAX_RETRIES - 1) throw err;
+      await new Promise(r => setTimeout(r, RETRY_BASE_MS * Math.pow(2, attempt)));
+    }
   }
-  const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error('APIから応答を取得できませんでした');
-  return text;
 }
 
 // === Chat Manager ===
@@ -152,7 +188,7 @@ export class ChatManager {
     if (idx >= 0) convs[idx] = conv; else convs.unshift(conv);
     if (convs.length > 50) convs.splice(50);
     SettingsManager.saveConversations(convs);
-    if (window._refreshSidebar) window._refreshSidebar();
+    // [REFACTOR D2] CustomEvent\u3067\u30b5\u30a4\u30c9\u30d0\u30fc\u66f4\u65b0\u3092\u901a\u77e5\n    window.dispatchEvent(new CustomEvent('sw:sidebar-refresh'));
   }
 
   async sendMessage() {
@@ -215,14 +251,17 @@ export class ChatManager {
     this.chatMessages.appendChild(div);
   }
 
-  // Streaming typewriter effect
+  // [REFACTOR P1] ストリーミングを textNode 追記に変更（innerHTML += のDOMリパース回避）
   streamAIMessage(text) {
     this.messages.push({ role: 'ai', content: text });
     const div = document.createElement('div');
     div.className = 'chat-message ai';
+    const label = document.createElement('div');
+    label.className = 'message-label';
+    label.textContent = 'アシスタント:';
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
-    div.innerHTML = `<div class="message-label">アシスタント:</div>`;
+    div.appendChild(label);
     div.appendChild(contentDiv);
     this.chatMessages.appendChild(div);
     let i = 0;
@@ -230,7 +269,11 @@ export class ChatManager {
     const stream = () => {
       if (i < chars.length) {
         const batch = chars.slice(i, i + 3).join('');
-        contentDiv.innerHTML += this.escapeHtml(batch).replace(/\n/g, '<br>');
+        // 改行は <br> に、それ以外は textNode で追加（XSS防止 + パフォーマンス改善）
+        for (const ch of batch) {
+          if (ch === '\n') { contentDiv.appendChild(document.createElement('br')); }
+          else { contentDiv.appendChild(document.createTextNode(ch)); }
+        }
         i += 3;
         this.scrollToBottom();
         requestAnimationFrame(stream);
